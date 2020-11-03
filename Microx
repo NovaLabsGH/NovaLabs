@@ -1011,8 +1011,4 @@ while 1
 			end if
 		end if
 	end while
-	end while
-else
-	exit()
-	
-end if
+	end while	
