@@ -1,0 +1,28 @@
+//Made by NovaLabs textbased version of ScanLan.exe
+s=get_shell
+        c=s.host_computer
+        r=get_router
+        
+        if not r or not c.is_network_active then exit("Not connected to the network.")
+        ips = r.devices_lan_ip
+        for ip in ips
+            if ip == c.network_gateway then
+                print("Scan report for:" + ip+":<color=red>GATEWAY</color>")
+            else if get_router(ip) then
+                print("Scan report for:" + ip+":<color=red>ROUTER</color>")
+            else if get_switch(ip) then
+                print("Scan report for:" + ip+":<color=red>SWITCH</color>")
+                
+            else if ip == c.lan_ip then 
+                print("Scan report for:" + ip + ":<color=red>Current LAN IP</color>") 
+            else
+                print("Scan report for:" + ip+":<color=red>COMPUTER</color>")
+            end if
+            if ip != c.network_gateway then
+                ports = r.device_ports(ip)
+                for port in ports
+                    print("<color=red>Ports open:"+"\n"+port.port_number)
+                end for
+            end if
+        end for
+        exit("scanLan done: " + ips.len+" FOUND")
